@@ -5,3 +5,24 @@ html, body, figure, figcaption, ul, li, h1 {
   font: inherit;
   text-align: inherit;
 }
+
+.freeDOMSnake {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.freeDOMSnake ul {
+  display: flex;
+  flex-direction: row;
+}
+
+li {
+  float:left;
+  width: 20px;
+  height: 20px;
+}
+
+.snake {
+  background: green;
+}

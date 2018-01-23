@@ -1,7 +1,7 @@
 const path = require("path");
 module.exports = {
   context: __dirname,
-  entry: "./lib/freeDOM.js",
+  entry: "./js/main.js",
   output: {
     path: path.resolve(__dirname, 'js'),
     publicPath: "/js/",

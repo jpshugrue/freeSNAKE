@@ -1,14 +1,4 @@
-class Board {
-
-  constructor(dimensions) {
-    this.dims = dimensions;
-    const startingPos = Math.floor(dimensions/2);
-    const startingCoord = new Coord([startingPos, startingPos]);
-    this.snake = new Snake(startingCoord);
-    this.apple = new Apple();
-  }
-
-}
+import Coord from './coord';
 
 class Snake {
 
@@ -19,6 +9,7 @@ class Snake {
   }
 
   move() {
+    this.headCoord = new Coord([this.headCoord.x, this.headCoord.y]);
     switch (this.headCoord) {
       case "N":
         this.headCoord.y -= 1;
@@ -29,35 +20,26 @@ class Snake {
       case "W":
         this.headCoord.x -= 1;
     }
+    this.segments.push(this.headCoord);
   }
 
   turn(newDirec) {
     this.direction = newDirec;
   }
 
-}
-
-class Apple {
-
-}
-
-class Coord {
-
-  constructor(coordinate) {
-    this.x = coordinate[0];
-    this.y = coordinate[1];
-  }
-
-  plus(coordinate) {
-    const newX = this.x + coordinate[0];
-    const newY = this.y + coordinate[1];
-    return new Coord([newX, newY]);
-  }
-
-  equals(coordinate) {
-    return (this.x === coordinate[0] && this.y === coordinate[1]);
+  gameOver() {
+    if (this.segments.length === 1) {
+      return false;
+    } else {
+      this.segments.forEach((segment) => {
+        if (this.headCoord.equals(segment)) {
+          return true;
+        }
+      });
+    }
+    return false;
   }
 
 }
 
-module.exports = Board;
+export default Snake;

@@ -65,9 +65,111 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__snake_view__ = __webpack_require__(1);
+
+const $free = __webpack_require__(2);
+
+// window.onload = () => {
+//   // debugger
+//   const rootEl = $free('.freeDOMSnake');
+//   new View(rootEl);
+// };
+
+$free(() => {
+  // debugger
+  const rootEl = $free('.freeDOMSnake');
+  new __WEBPACK_IMPORTED_MODULE_0__snake_view__["a" /* default */](rootEl);
+});
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__board__ = __webpack_require__(4);
+
+const $free = __webpack_require__(2);
+
+class View {
+
+  constructor(htmlElement) {
+    this.$el = htmlElement;
+    this.board = new __WEBPACK_IMPORTED_MODULE_0__board__["a" /* default */](20);
+    // debugger
+    this.snake = this.board.snake;
+    this.setup();
+    document.addEventListener('keydown', this.handleKeyEvent.bind(this));
+    // $free(window).on("keydown", this.handleKeyEvent.bind(this));
+    // window.on("keydown", this.handleKeyEvent.bind(this));
+    window.setInterval(this.step.bind(this), 500);
+  }
+
+  setup() {
+    let html = "";
+    for (let i = 0; i < this.board.dims; i++) {
+      html += "<ul>";
+      for (let j = 0; j < this.board.dims; j++) {
+        html += "<li></li>";
+      }
+      html += "</ul>";
+    }
+    // debugger
+    this.$el.html(html);
+  }
+
+  step() {
+    if (this.snake.gameOver()) {
+      alert("You lose!");
+      window.clearInterval(this.intervalId);
+    } else {
+      this.snake.move();
+      this.render();
+    }
+  }
+
+  render() {
+    const $li = this.$el.find("li");
+    $li.removeClass("snake");
+    // $li.removeClass("square");
+    this.snake.segments.forEach((segment) => {
+      // debugger
+      const listNum = segment.x + (segment.y * this.board.dims);
+      $li.eq(listNum).addClass("snake");
+    });
+  }
+
+  handleKeyEvent(event) {
+      switch (event.keyCode) {
+        case 38:
+          this.snake.turn("N");
+          break;
+        case 39:
+          this.snake.turn("E");
+          break;
+        case 37:
+          this.snake.turn("W");
+          break;
+        case 40:
+          this.snake.turn("S");
+          break;
+      }
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (View);
+
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const DOMNodeCollection = __webpack_require__(1);
+const DOMNodeCollection = __webpack_require__(3);
 
 function $free(arg, ...callbacks) {
   const whenLoaded = function(){
@@ -124,11 +226,13 @@ $free.ajax = function(options) {
   request.send(JSON.stringify(defaults.data));
 };
 
-window.$free = $free;
+// window.$free = $free;
+
+module.exports = $free;
 
 
 /***/ }),
-/* 1 */
+/* 3 */
 /***/ (function(module, exports) {
 
 class DOMNodeCollection {
@@ -244,6 +348,116 @@ class DOMNodeCollection {
 }
 
 module.exports = DOMNodeCollection;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__snake__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__coord__ = __webpack_require__(6);
+
+
+
+class Board {
+
+  constructor(dimensions) {
+    this.dims = dimensions;
+    const startingPos = Math.floor(dimensions/2);
+    const startingCoord = new __WEBPACK_IMPORTED_MODULE_1__coord__["a" /* default */]([startingPos, startingPos]);
+    this.snake = new __WEBPACK_IMPORTED_MODULE_0__snake__["a" /* default */](startingCoord);
+    // this.apple = new Apple();
+  }
+
+}
+
+//
+// class Apple {
+//
+// }
+
+/* harmony default export */ __webpack_exports__["a"] = (Board);
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__coord__ = __webpack_require__(6);
+
+
+class Snake {
+
+  constructor(startingCoord) {
+    this.direction = "N";
+    this.headCoord = startingCoord;
+    this.segments = [startingCoord];
+  }
+
+  move() {
+    this.headCoord = new __WEBPACK_IMPORTED_MODULE_0__coord__["a" /* default */]([this.headCoord.x, this.headCoord.y]);
+    switch (this.headCoord) {
+      case "N":
+        this.headCoord.y -= 1;
+      case "E":
+        this.headCoord.x += 1;
+      case "S":
+        this.headCoord.y += 1;
+      case "W":
+        this.headCoord.x -= 1;
+    }
+    this.segments.push(this.headCoord);
+  }
+
+  turn(newDirec) {
+    this.direction = newDirec;
+  }
+
+  gameOver() {
+    if (this.segments.length === 1) {
+      return false;
+    } else {
+      this.segments.forEach((segment) => {
+        if (this.headCoord.equals(segment)) {
+          return true;
+        }
+      });
+    }
+    return false;
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Snake);
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class Coord {
+
+  constructor(coordinate) {
+    this.x = coordinate[0];
+    this.y = coordinate[1];
+  }
+
+  plus(coordinate) {
+    const newX = this.x + coordinate[0];
+    const newY = this.y + coordinate[1];
+    return new Coord([newX, newY]);
+  }
+
+  equals(coordinate) {
+    return (this.x === coordinate[0] && this.y === coordinate[1]);
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Coord);
 
 
 /***/ })

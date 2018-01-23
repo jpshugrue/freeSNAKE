@@ -1,7 +1,14 @@
-const SnakeView = require('./snake-view');
+import View from './snake-view';
 const $free = require("../lib/freeDOM");
 
-$free(function () {
-  const rootEl = $free('.snake-game');
-  new SnakeView(rootEl);
+// window.onload = () => {
+//   // debugger
+//   const rootEl = $free('.freeDOMSnake');
+//   new View(rootEl);
+// };
+
+$free(() => {
+  // debugger
+  const rootEl = $free('.freeDOMSnake');
+  new View(rootEl);
 });
