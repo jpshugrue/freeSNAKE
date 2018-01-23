@@ -6,12 +6,9 @@ class View {
   constructor(htmlElement) {
     this.$el = htmlElement;
     this.board = new Board(20);
-    // debugger
     this.snake = this.board.snake;
     this.setup();
     document.addEventListener('keydown', this.handleKeyEvent.bind(this));
-    // $free(window).on("keydown", this.handleKeyEvent.bind(this));
-    // window.on("keydown", this.handleKeyEvent.bind(this));
     window.setInterval(this.step.bind(this), 500);
   }
 
@@ -24,7 +21,6 @@ class View {
       }
       html += "</ul>";
     }
-    // debugger
     this.$el.html(html);
   }
 
@@ -41,9 +37,7 @@ class View {
   render() {
     const $li = this.$el.find("li");
     $li.removeClass("snake");
-    // $li.removeClass("square");
     this.snake.segments.forEach((segment) => {
-      // debugger
       const listNum = segment.x + (segment.y * this.board.dims);
       $li.eq(listNum).addClass("snake");
     });

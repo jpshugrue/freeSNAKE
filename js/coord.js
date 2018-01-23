@@ -12,7 +12,7 @@ class Coord {
   }
 
   equals(coordinate) {
-    return (this.x === coordinate[0] && this.y === coordinate[1]);
+    return (this.x === coordinate.x && this.y === coordinate.y);
   }
 
 }

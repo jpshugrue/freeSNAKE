@@ -10,15 +10,19 @@ class Snake {
 
   move() {
     this.headCoord = new Coord([this.headCoord.x, this.headCoord.y]);
-    switch (this.headCoord) {
+    switch (this.direction) {
       case "N":
         this.headCoord.y -= 1;
+        break;
       case "E":
         this.headCoord.x += 1;
+        break;
       case "S":
         this.headCoord.y += 1;
+        break;
       case "W":
         this.headCoord.x -= 1;
+        break;
     }
     this.segments.push(this.headCoord);
   }
@@ -31,11 +35,11 @@ class Snake {
     if (this.segments.length === 1) {
       return false;
     } else {
-      this.segments.forEach((segment) => {
-        if (this.headCoord.equals(segment)) {
+      for (let i = 0; i < this.segments.length-1; i++) {
+        if (this.headCoord.equals(this.segments[i])) {
           return true;
         }
-      });
+      }
     }
     return false;
   }

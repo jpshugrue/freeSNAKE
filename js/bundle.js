@@ -100,12 +100,9 @@ class View {
   constructor(htmlElement) {
     this.$el = htmlElement;
     this.board = new __WEBPACK_IMPORTED_MODULE_0__board__["a" /* default */](20);
-    // debugger
     this.snake = this.board.snake;
     this.setup();
     document.addEventListener('keydown', this.handleKeyEvent.bind(this));
-    // $free(window).on("keydown", this.handleKeyEvent.bind(this));
-    // window.on("keydown", this.handleKeyEvent.bind(this));
     window.setInterval(this.step.bind(this), 500);
   }
 
@@ -118,7 +115,6 @@ class View {
       }
       html += "</ul>";
     }
-    // debugger
     this.$el.html(html);
   }
 
@@ -135,9 +131,7 @@ class View {
   render() {
     const $li = this.$el.find("li");
     $li.removeClass("snake");
-    // $li.removeClass("square");
     this.snake.segments.forEach((segment) => {
-      // debugger
       const listNum = segment.x + (segment.y * this.board.dims);
       $li.eq(listNum).addClass("snake");
     });
@@ -398,15 +392,19 @@ class Snake {
 
   move() {
     this.headCoord = new __WEBPACK_IMPORTED_MODULE_0__coord__["a" /* default */]([this.headCoord.x, this.headCoord.y]);
-    switch (this.headCoord) {
+    switch (this.direction) {
       case "N":
         this.headCoord.y -= 1;
+        break;
       case "E":
         this.headCoord.x += 1;
+        break;
       case "S":
         this.headCoord.y += 1;
+        break;
       case "W":
         this.headCoord.x -= 1;
+        break;
     }
     this.segments.push(this.headCoord);
   }
@@ -419,11 +417,11 @@ class Snake {
     if (this.segments.length === 1) {
       return false;
     } else {
-      this.segments.forEach((segment) => {
-        if (this.headCoord.equals(segment)) {
+      for (let i = 0; i < this.segments.length-1; i++) {
+        if (this.headCoord.equals(this.segments[i])) {
           return true;
         }
-      });
+      }
     }
     return false;
   }
@@ -452,7 +450,7 @@ class Coord {
   }
 
   equals(coordinate) {
-    return (this.x === coordinate[0] && this.y === coordinate[1]);
+    return (this.x === coordinate.x && this.y === coordinate.y);
   }
 
 }
