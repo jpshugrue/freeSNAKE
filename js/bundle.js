@@ -73,14 +73,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 const $free = __webpack_require__(2);
 
-// window.onload = () => {
-//   // debugger
-//   const rootEl = $free('.freeDOMSnake');
-//   new View(rootEl);
-// };
-
 $free(() => {
-  // debugger
   const rootEl = $free('.freeDOMSnake');
   new __WEBPACK_IMPORTED_MODULE_0__snake_view__["a" /* default */](rootEl);
 });
