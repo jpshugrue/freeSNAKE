@@ -26,7 +26,7 @@ class View {
 
   step() {
     if (this.snake.gameOver()) {
-      alert("You lose!");
+      console.log("You lose");
       window.clearInterval(this.intervalId);
     } else {
       this.snake.move();

@@ -6,8 +6,8 @@ class Coord {
   }
 
   plus(coordinate) {
-    const newX = this.x + coordinate[0];
-    const newY = this.y + coordinate[1];
+    const newX = this.x + coordinate.x;
+    const newY = this.y + coordinate.y;
     return new Coord([newX, newY]);
   }
 

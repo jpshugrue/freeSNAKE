@@ -113,7 +113,7 @@ class View {
 
   step() {
     if (this.snake.gameOver()) {
-      alert("You lose!");
+      console.log("You lose");
       window.clearInterval(this.intervalId);
     } else {
       this.snake.move();
@@ -381,25 +381,46 @@ class Snake {
     this.direction = "N";
     this.headCoord = startingCoord;
     this.segments = [startingCoord];
+    this.fed = false;
+
+    this.moveDifferentials = {
+      "N": new __WEBPACK_IMPORTED_MODULE_0__coord__["a" /* default */]([0, -1]),
+      "E": new __WEBPACK_IMPORTED_MODULE_0__coord__["a" /* default */]([1, 0]),
+      "S": new __WEBPACK_IMPORTED_MODULE_0__coord__["a" /* default */]([0, 1]),
+      "W": new __WEBPACK_IMPORTED_MODULE_0__coord__["a" /* default */]([-1, 0])
+    };
   }
 
   move() {
-    this.headCoord = new __WEBPACK_IMPORTED_MODULE_0__coord__["a" /* default */]([this.headCoord.x, this.headCoord.y]);
-    switch (this.direction) {
-      case "N":
-        this.headCoord.y -= 1;
-        break;
-      case "E":
-        this.headCoord.x += 1;
-        break;
-      case "S":
-        this.headCoord.y += 1;
-        break;
-      case "W":
-        this.headCoord.x -= 1;
-        break;
+    // debugger
+    this.segments.push(this.headCoord.plus(this.moveDifferentials[this.direction]));
+    this.headCoord = this.segments[this.segments.length-1];
+    if (!this.fed) {
+      this.segments.shift();
+    } else {
+      this.fed = false;
     }
-    this.segments.push(this.headCoord);
+
+
+    // this.headCoord = new Coord([this.headCoord.x, this.headCoord.y]);
+    // switch (this.direction) {
+    //   case "N":
+    //     this.headCoord.y -= 1;
+    //     break;
+    //   case "E":
+    //     this.headCoord.x += 1;
+    //     break;
+    //   case "S":
+    //     this.headCoord.y += 1;
+    //     break;
+    //   case "W":
+    //     this.headCoord.x -= 1;
+    //     break;
+    // }
+  }
+
+  grow() {
+    // this.headCoord = new Coord([this.headCoord.x, this.headCoord.y]);
   }
 
   turn(newDirec) {
@@ -437,8 +458,8 @@ class Coord {
   }
 
   plus(coordinate) {
-    const newX = this.x + coordinate[0];
-    const newY = this.y + coordinate[1];
+    const newX = this.x + coordinate.x;
+    const newY = this.y + coordinate.y;
     return new Coord([newX, newY]);
   }
 
