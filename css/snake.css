@@ -6,7 +6,7 @@ html, body, figure, figcaption, ul, li, h1 {
   text-align: inherit;
 }
 
-h1, h3 {
+h1, h3, span {
   text-align: center;
   font-family: sans-serif;
 }
@@ -24,6 +24,8 @@ h3 {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
   width: 405px;
   height: 405px;
   margin: 0 auto;
@@ -54,6 +56,18 @@ li {
   background: red;
 }
 
-/* .gameOverlay {
-  background: rgba(255,255,255,.5);
-} */
+.gameOverlay {
+  background: rgba(0,0,0,.3);
+}
+
+.appleGameOverlay {
+  background: rgba(255,0,0,.3);
+}
+
+body span {
+  color: red;
+}
+
+.gameOver {
+  display: none;
+}
