@@ -1,5 +1,6 @@
 import Snake from './snake';
 import Coord from './coord';
+import Apple from './apple';
 
 class Board {
 
@@ -7,15 +8,10 @@ class Board {
     this.dims = dimensions;
     const startingPos = Math.floor(dimensions/2);
     const startingCoord = new Coord([startingPos, startingPos]);
-    this.snake = new Snake(startingCoord);
-    // this.apple = new Apple();
+    this.apple = new Apple(this);
+    this.snake = new Snake(startingCoord, this.apple);
   }
 
 }
-
-//
-// class Apple {
-//
-// }
 
 export default Board;

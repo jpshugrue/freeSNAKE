@@ -2,11 +2,11 @@ import Coord from './coord';
 
 class Snake {
 
-  constructor(startingCoord) {
+  constructor(startingCoord, apple) {
+    this.apple = apple;
     this.direction = "N";
     this.headCoord = startingCoord;
     this.segments = [startingCoord];
-    this.fed = false;
 
     this.moveDifferentials = {
       "N": new Coord([0, -1]),
@@ -17,35 +17,22 @@ class Snake {
   }
 
   move() {
-    // debugger
-    this.segments.push(this.headCoord.plus(this.moveDifferentials[this.direction]));
-    this.headCoord = this.segments[this.segments.length-1];
-    if (!this.fed) {
+    if (!this.headCoord.equals(this.apple.position)) {
       this.segments.shift();
     } else {
-      this.fed = false;
+      this.apple.move();
     }
-
-
-    // this.headCoord = new Coord([this.headCoord.x, this.headCoord.y]);
-    // switch (this.direction) {
-    //   case "N":
-    //     this.headCoord.y -= 1;
-    //     break;
-    //   case "E":
-    //     this.headCoord.x += 1;
-    //     break;
-    //   case "S":
-    //     this.headCoord.y += 1;
-    //     break;
-    //   case "W":
-    //     this.headCoord.x -= 1;
-    //     break;
-    // }
+    this.segments.push(this.headCoord.plus(this.moveDifferentials[this.direction]));
+    this.headCoord = this.segments[this.segments.length-1];
   }
 
-  grow() {
-    // this.headCoord = new Coord([this.headCoord.x, this.headCoord.y]);
+  contains(coord) {
+    for(let i = 0; i < this.segments.length; i++) {
+      if (this.segments[i].equals(coord)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   turn(newDirec) {

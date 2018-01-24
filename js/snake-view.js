@@ -7,6 +7,7 @@ class View {
     this.$el = htmlElement;
     this.board = new Board(20);
     this.snake = this.board.snake;
+    this.apple = this.board.apple;
     this.setup();
     document.addEventListener('keydown', this.handleKeyEvent.bind(this));
     window.setInterval(this.step.bind(this), 500);
@@ -37,10 +38,12 @@ class View {
   render() {
     const $li = this.$el.find("li");
     $li.removeClass("snake");
+    $li.removeClass("apple");
     this.snake.segments.forEach((segment) => {
       const listNum = segment.x + (segment.y * this.board.dims);
       $li.eq(listNum).addClass("snake");
     });
+    $li.eq(this.apple.position.x + (this.apple.position.y * this.board.dims)).addClass("apple");
   }
 
   handleKeyEvent(event) {

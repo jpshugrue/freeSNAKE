@@ -94,6 +94,7 @@ class View {
     this.$el = htmlElement;
     this.board = new __WEBPACK_IMPORTED_MODULE_0__board__["a" /* default */](20);
     this.snake = this.board.snake;
+    this.apple = this.board.apple;
     this.setup();
     document.addEventListener('keydown', this.handleKeyEvent.bind(this));
     window.setInterval(this.step.bind(this), 500);
@@ -124,10 +125,12 @@ class View {
   render() {
     const $li = this.$el.find("li");
     $li.removeClass("snake");
+    $li.removeClass("apple");
     this.snake.segments.forEach((segment) => {
       const listNum = segment.x + (segment.y * this.board.dims);
       $li.eq(listNum).addClass("snake");
     });
+    $li.eq(this.apple.position.x + (this.apple.position.y * this.board.dims)).addClass("apple");
   }
 
   handleKeyEvent(event) {
@@ -344,6 +347,8 @@ module.exports = DOMNodeCollection;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__snake__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__coord__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__apple__ = __webpack_require__(7);
+
 
 
 
@@ -353,16 +358,11 @@ class Board {
     this.dims = dimensions;
     const startingPos = Math.floor(dimensions/2);
     const startingCoord = new __WEBPACK_IMPORTED_MODULE_1__coord__["a" /* default */]([startingPos, startingPos]);
-    this.snake = new __WEBPACK_IMPORTED_MODULE_0__snake__["a" /* default */](startingCoord);
-    // this.apple = new Apple();
+    this.apple = new __WEBPACK_IMPORTED_MODULE_2__apple__["a" /* default */](this);
+    this.snake = new __WEBPACK_IMPORTED_MODULE_0__snake__["a" /* default */](startingCoord, this.apple);
   }
 
 }
-
-//
-// class Apple {
-//
-// }
 
 /* harmony default export */ __webpack_exports__["a"] = (Board);
 
@@ -377,11 +377,11 @@ class Board {
 
 class Snake {
 
-  constructor(startingCoord) {
+  constructor(startingCoord, apple) {
+    this.apple = apple;
     this.direction = "N";
     this.headCoord = startingCoord;
     this.segments = [startingCoord];
-    this.fed = false;
 
     this.moveDifferentials = {
       "N": new __WEBPACK_IMPORTED_MODULE_0__coord__["a" /* default */]([0, -1]),
@@ -392,35 +392,22 @@ class Snake {
   }
 
   move() {
-    // debugger
-    this.segments.push(this.headCoord.plus(this.moveDifferentials[this.direction]));
-    this.headCoord = this.segments[this.segments.length-1];
-    if (!this.fed) {
+    if (!this.headCoord.equals(this.apple.position)) {
       this.segments.shift();
     } else {
-      this.fed = false;
+      this.apple.move();
     }
-
-
-    // this.headCoord = new Coord([this.headCoord.x, this.headCoord.y]);
-    // switch (this.direction) {
-    //   case "N":
-    //     this.headCoord.y -= 1;
-    //     break;
-    //   case "E":
-    //     this.headCoord.x += 1;
-    //     break;
-    //   case "S":
-    //     this.headCoord.y += 1;
-    //     break;
-    //   case "W":
-    //     this.headCoord.x -= 1;
-    //     break;
-    // }
+    this.segments.push(this.headCoord.plus(this.moveDifferentials[this.direction]));
+    this.headCoord = this.segments[this.segments.length-1];
   }
 
-  grow() {
-    // this.headCoord = new Coord([this.headCoord.x, this.headCoord.y]);
+  contains(coord) {
+    for(let i = 0; i < this.segments.length; i++) {
+      if (this.segments[i].equals(coord)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   turn(newDirec) {
@@ -470,6 +457,42 @@ class Coord {
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (Coord);
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__coord__ = __webpack_require__(6);
+
+
+class Apple {
+
+  constructor(board) {
+    this.board = board;
+    this.position = new __WEBPACK_IMPORTED_MODULE_0__coord__["a" /* default */]([5, 5]);
+    this.getAvailablePos = this.getAvailablePos.bind(this);
+  }
+
+  move() {
+    this.position = this.getAvailablePos();
+  }
+
+  getAvailablePos() {
+    let x = Math.floor(Math.random() * this.board.dims);
+    let y = Math.floor(Math.random() * this.board.dims);
+    let coord = new __WEBPACK_IMPORTED_MODULE_0__coord__["a" /* default */]([x, y]);
+    while (this.board.snake.contains(coord)) {
+      coord.x = Math.floor(Math.random() * this.board.dims);
+      coord.y = Math.floor(Math.random() * this.board.dims);
+    }
+    return coord;
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Apple);
 
 
 /***/ })
