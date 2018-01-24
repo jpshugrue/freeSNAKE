@@ -10,7 +10,7 @@ class View {
     this.apple = this.board.apple;
     this.setup();
     document.addEventListener('keydown', this.handleKeyEvent.bind(this));
-    window.setInterval(this.step.bind(this), 500);
+    window.setInterval(this.step.bind(this), 200);
   }
 
   setup() {
@@ -26,11 +26,13 @@ class View {
   }
 
   step() {
+    this.snake.move();
     if (this.snake.gameOver()) {
       console.log("You lose");
+      const $li = this.$el.find("li");
+      $li.removeClass("snake");
       window.clearInterval(this.intervalId);
     } else {
-      this.snake.move();
       this.render();
     }
   }

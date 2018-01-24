@@ -12,10 +12,8 @@ h1, h3 {
 }
 
 h1 {
-
   font-size: 60px;
   margin-top: 15px;
-
   font-weight: 700;
 }
 
@@ -55,3 +53,7 @@ li {
 .apple {
   background: red;
 }
+
+/* .gameOverlay {
+  background: rgba(255,255,255,.5);
+} */

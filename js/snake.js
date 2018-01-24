@@ -17,7 +17,6 @@ class Snake {
   }
 
   move() {
-
     this.segments.push(this.headCoord.plus(this.moveDifferentials[this.direction]));
     this.headCoord = this.segments[this.segments.length-1];
     if (!this.headCoord.equals(this.apple.position)) {
@@ -41,7 +40,10 @@ class Snake {
   }
 
   gameOver() {
-    if (this.segments.length === 1) {
+    if (this.headCoord.x < 0 || this.headCoord.x >= 20 ||
+      this.headCoord.y < 0 || this.headCoord.y >= 20) {
+        return true;
+    } else if (this.segments.length === 1) {
       return false;
     } else {
       for (let i = 0; i < this.segments.length-1; i++) {
