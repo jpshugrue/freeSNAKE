@@ -392,13 +392,14 @@ class Snake {
   }
 
   move() {
+
+    this.segments.push(this.headCoord.plus(this.moveDifferentials[this.direction]));
+    this.headCoord = this.segments[this.segments.length-1];
     if (!this.headCoord.equals(this.apple.position)) {
       this.segments.shift();
     } else {
       this.apple.move();
     }
-    this.segments.push(this.headCoord.plus(this.moveDifferentials[this.direction]));
-    this.headCoord = this.segments[this.segments.length-1];
   }
 
   contains(coord) {

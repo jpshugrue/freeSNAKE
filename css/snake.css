@@ -6,15 +6,40 @@ html, body, figure, figcaption, ul, li, h1 {
   text-align: inherit;
 }
 
-.freeDOMSnake {
+h1, h3 {
+  text-align: center;
+  font-family: sans-serif;
+}
+
+h1 {
+
+  font-size: 60px;
+  margin-top: 15px;
+
+  font-weight: 700;
+}
+
+h3 {
+  margin: 5px 0px 15px 0px;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+body {
+  width: 405px;
+  height: 405px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
+}
+
+.freeDOMSnake {
+  display: inline-block;
+  border: 2px solid black;
 }
 
 .freeDOMSnake ul {
   display: flex;
   flex-direction: row;
+  list-style: none;
 }
 
 li {
