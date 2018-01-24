@@ -117,7 +117,6 @@ class View {
   step() {
     this.snake.move();
     if (this.snake.gameOver()) {
-      console.log("You lose");
       const $li = this.$el.find("li");
       $li.removeClass("snake");
       $li.addClass("gameOverlay");
