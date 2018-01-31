@@ -6,6 +6,10 @@ html, body, figure, figcaption, ul, li, h1 {
   text-align: inherit;
 }
 
+html {
+  background-color: #F99D95;
+}
+
 h1, h3, span, div {
   text-align: center;
   font-family: sans-serif;
@@ -27,8 +31,10 @@ body {
   display: flex;
   flex-direction: column;
   width: 405px;
-  height: 405px;
+  padding: 0px 20px 0px 20px;
+  height: 100vh;
   margin: 0 auto;
+  background-color: #ABCDBB;
 }
 
 .freeDOMSnake {
@@ -71,4 +77,8 @@ body span {
 
 .gameOver {
   display: none;
+}
+
+div {
+  padding-bottom: 10px;
 }
