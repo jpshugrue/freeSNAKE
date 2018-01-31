@@ -6,7 +6,7 @@ html, body, figure, figcaption, ul, li, h1 {
   text-align: inherit;
 }
 
-h1, h3, span {
+h1, h3, span, div {
   text-align: center;
   font-family: sans-serif;
 }
@@ -34,6 +34,7 @@ body {
 .freeDOMSnake {
   display: inline-block;
   border: 2px solid black;
+  margin-bottom: 10px;
 }
 
 .freeDOMSnake ul {
